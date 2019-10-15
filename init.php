@@ -62,3 +62,7 @@ require(dirname(__FILE__) . '/lib/SingletonApiResource.php');
 // Tap API Resources
 require(dirname(__FILE__) . '/lib/Collection.php');
 require(dirname(__FILE__) . '/lib/Customer.php');
+require(dirname(__FILE__) . '/lib/Authorize.php');
+require(dirname(__FILE__) . '/lib/Card.php');
+require(dirname(__FILE__) . '/lib/Charge.php');
+require(dirname(__FILE__) . '/lib/Token.php');

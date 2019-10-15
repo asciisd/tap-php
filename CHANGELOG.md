@@ -4,19 +4,11 @@ All Notable changes to `tap-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## NEXT - YYYY-MM-DD
+## [1.0.0] - 2019-10-15
 
 ### Added
-- Nothing
-
-### Deprecated
-- Nothing
-
-### Fixed
-- Nothing
-
-### Removed
-- Nothing
-
-### Security
-- Nothing
+- Authorize (ListAll - Create - Update - Retrieve)
+- Card (ListAll - Create - Update - Retrieve)
+- Charge (ListAll - Create - Update - Retrieve)
+- Customer (ListAll - Create - Update - Retrieve - Create Source)
+- Token (Create - Retrieve)
