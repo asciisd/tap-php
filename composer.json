@@ -1,0 +1,57 @@
+{
+    "name": "asciisd/tap-php",
+    "type": "library",
+    "description": "Tap Payment PHP Library",
+    "keywords": [
+        "asciisd",
+        "tap-php",
+        "payment processing",
+        "api"
+    ],
+    "homepage": "https://github.com/asciisd/tap-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Amr Emad",
+            "email": "aemad@asciisd.com",
+            "homepage": "https://asciisd.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "phpseclib/phpseclib": "^2.0"
+    },
+    "require-dev": {
+        "scrutinizer/ocular": "~1.1",
+        "squizlabs/php_codesniffer": "~2.3",
+        "php-coveralls/php-coveralls": "^2.1",
+        "symfony/process": "~3.4",
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "phpunit/phpunit": "^8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tap\\": "lib/"
+        },
+        "classmap": [
+            "src/"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tap\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

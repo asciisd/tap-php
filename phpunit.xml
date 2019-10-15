@@ -1,0 +1,15 @@
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="Tap PHP Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory>lib</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
+</phpunit>
