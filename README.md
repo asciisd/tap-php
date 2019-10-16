@@ -101,7 +101,12 @@ end up there instead of `error_log`:
 You can access the data from the last API response on any object via `getLastResponse()`.
 
 ```php
-$charge = \Tap\Charge::create(['amount' => 2000, 'currency' => 'usd', 'source' => 'tok_visa']);
+$charge = \Tap\Charge::create([
+    'amount' => 2000, 
+    'currency' => 'usd', 
+    'source' => ['id' => 'tok_189fqt2eZvKYlo2CTGBeg6Uq'], 
+    'customer' => ['id' => 'cus_w4MN2720192134x9XB1510264']
+]);
 echo $charge->getLastResponse()->headers['Request-Id'];
 ```
 
@@ -125,12 +130,18 @@ per-request key and/or account:
 ```php
 \Tap\Charge::all([], [
     'api_key' => 'sk_test_...',
-    'tap_account' => 'acct_...'
+    'amount' => 2000, 
+    'currency' => 'usd', 
+    'source' => ['id' => 'tok_189fqt2eZvKYlo2CTGBeg6Uq'], 
+    'customer' => ['id' => 'cus_w4MN2720192134x9XB1510264']
 ]);
 
 \Tap\Charge::retrieve("ch_18atAXCdGbJFKhCuBAa4532Z", [
     'api_key' => 'sk_test_...',
-    'tap_account' => 'acct_...'
+    'amount' => 2000, 
+    'currency' => 'usd', 
+    'source' => ['id' => 'tok_189fqt2eZvKYlo2CTGBeg6Uq'], 
+    'customer' => ['id' => 'cus_w4MN2720192134x9XB1510264']
 ]);
 ```
 
