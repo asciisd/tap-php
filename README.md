@@ -143,6 +143,29 @@ certificates, but it's possible to configure your own:
 \Tap\Tap::setCABundlePath("path/to/ca/bundle");
 ```
 
+### Configuring Automatic Retries
+
+The library can be configured to automatically retry requests that fail due to
+an intermittent network problem:
+
+```php
+\Tap\Tap::setMaxNetworkRetries(2);
+```
+
+[Idempotency keys][idempotency-keys] are added to requests to guarantee that
+retries are safe.
+
+### Request latency telemetry
+
+By default, the library sends request latency telemetry to Tap. These
+numbers help Tap improve the overall latency of its API for all users.
+
+You can disable this behavior if you prefer:
+
+```php
+\Tap\Tap::setEnableTelemetry(false);
+```
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
@@ -164,7 +187,7 @@ If you discover any security related issues, please email aemad@asciisd.com inst
 ## Credits
 
 - [Amr Emad][link-author]
-- [Stripe][link-stripe] : this library is based on the stripe-php package infrastructure, so thanks stripe.
+- [Stripe][link-stripe] : this library is based on the stripe-php package infrastructure, so thanks Stripe.
 - [All Contributors][link-contributors]
 
 ## License

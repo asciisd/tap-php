@@ -25,6 +25,35 @@ class ApiRequestor
     private static $_httpClient;
 
     /**
+     * @var RequestTelemetry
+     */
+    private static $requestTelemetry;
+
+    /**
+     * Creates a telemetry json blob for use in 'X-Tap-Client-Telemetry' headers
+     * @static
+     *
+     * @param RequestTelemetry $requestTelemetry
+     * @return string
+     */
+    private static function _telemetryJson($requestTelemetry)
+    {
+        $payload = array(
+            'last_request_metrics' => array(
+                'request_id' => $requestTelemetry->requestId,
+                'request_duration_ms' => $requestTelemetry->requestDuration,
+            ));
+
+        $result = json_encode($payload);
+        if ($result != false) {
+            return $result;
+        } else {
+            Tap::getLogger()->error("Serializing telemetry payload failed!");
+            return "{}";
+        }
+    }
+
+    /**
      * ApiRequestor constructor.
      *
      * @param string|null $apiKey
@@ -309,6 +338,10 @@ class ApiRequestor
             }
         }
 
+        if (Tap::$enableTelemetry && self::$requestTelemetry != null) {
+            $defaultHeaders["X-Tap-Client-Telemetry"] = self::_telemetryJson(self::$requestTelemetry);
+        }
+
         if ($hasFile) {
             $defaultHeaders['Content-Type'] = 'multipart/form-data';
         } else {
@@ -322,6 +355,8 @@ class ApiRequestor
             $rawHeaders[] = $header . ': ' . $value;
         }
 
+        $requestStartMs = Util\Util::currentTimeMillis();
+
         list($rbody, $rcode, $rheaders) = $this->httpClient()->request(
             $method,
             $absUrl,
@@ -329,6 +364,13 @@ class ApiRequestor
             $params,
             $hasFile
         );
+
+        if (isset($rheaders['request-id'])) {
+            self::$requestTelemetry = new RequestTelemetry(
+                $rheaders['request-id'],
+                Util\Util::currentTimeMillis() - $requestStartMs
+            );
+        }
 
         return [$rbody, $rcode, $rheaders, $myApiKey];
     }
@@ -393,6 +435,16 @@ class ApiRequestor
     public static function setHttpClient($client)
     {
         self::$_httpClient = $client;
+    }
+
+    /**
+     * @static
+     *
+     * Resets any stateful telemetry data
+     */
+    public static function resetTelemetry()
+    {
+        self::$requestTelemetry = null;
     }
 
     /**

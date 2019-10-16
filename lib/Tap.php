@@ -31,6 +31,9 @@ class Tap
     // @var int Maximum number of request retries
     public static $maxNetworkRetries = 0;
 
+    // @var boolean Whether client telemetry is enabled. Defaults to true.
+    public static $enableTelemetry = false;
+
     // @var float Maximum delay between retries, in seconds
     private static $maxNetworkRetryDelay = 2.0;
 
@@ -191,5 +194,25 @@ class Tap
     public static function getInitialNetworkRetryDelay()
     {
         return self::$initialNetworkRetryDelay;
+    }
+
+    /**
+     * @return bool Whether client telemetry is enabled
+     */
+    public static function getEnableTelemetry()
+    {
+        return self::$enableTelemetry;
+    }
+
+    /**
+     * @param bool $enableTelemetry Enables client telemetry.
+     *
+     * Client telemetry enables timing and request metrics to be sent back to Stripe as an HTTP Header
+     * with the current request. This enables Stripe to do latency and metrics analysis without adding extra
+     * overhead (such as extra network calls) on the client.
+     */
+    public static function setEnableTelemetry($enableTelemetry)
+    {
+        self::$enableTelemetry = $enableTelemetry;
     }
 }
