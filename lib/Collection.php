@@ -15,6 +15,7 @@ namespace Tap;
  * @property array $data
  * @property array $charges
  * @property array $authorizes
+ * @property array $refunds
  *
  * @package Tap
  */

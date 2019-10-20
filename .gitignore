@@ -18,3 +18,4 @@ clover.xml
 
 # Ignore PHP CS Fixer cache
 .php_cs.cache
+.phpunit.result.cache

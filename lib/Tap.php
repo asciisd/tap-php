@@ -37,7 +37,7 @@ class Tap
     // @var float Maximum delay between retries, in seconds
     private static $maxNetworkRetryDelay = 2.0;
 
-    // @var float Maximum delay between retries, in seconds, that will be respected from the Stripe API
+    // @var float Maximum delay between retries, in seconds, that will be respected from the Tap API
     private static $maxRetryAfter = 60.0;
 
     // @var float Initial delay between retries, in seconds
@@ -181,7 +181,7 @@ class Tap
     }
 
     /**
-     * @return float Maximum delay between retries, in seconds, that will be respected from the Stripe API
+     * @return float Maximum delay between retries, in seconds, that will be respected from the Tap API
      */
     public static function getMaxRetryAfter()
     {
@@ -207,8 +207,8 @@ class Tap
     /**
      * @param bool $enableTelemetry Enables client telemetry.
      *
-     * Client telemetry enables timing and request metrics to be sent back to Stripe as an HTTP Header
-     * with the current request. This enables Stripe to do latency and metrics analysis without adding extra
+     * Client telemetry enables timing and request metrics to be sent back to Tap as an HTTP Header
+     * with the current request. This enables Tap to do latency and metrics analysis without adding extra
      * overhead (such as extra network calls) on the client.
      */
     public static function setEnableTelemetry($enableTelemetry)

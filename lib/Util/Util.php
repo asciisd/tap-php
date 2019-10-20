@@ -4,14 +4,8 @@ namespace Tap\Util;
 
 use phpseclib\Crypt\RSA;
 use Tap\ApiResource;
-use Tap\Authorize;
-use Tap\Card;
-use Tap\Charge;
-use Tap\Collection;
-use Tap\Customer;
 use Tap\Tap;
 use Tap\TapObject;
-use Tap\Token;
 
 abstract class Util
 {
@@ -51,14 +45,15 @@ abstract class Util
     {
         $types = [
             // data structures
-            Collection::OBJECT_NAME => Collection::class,
+            \Tap\Collection::OBJECT_NAME => \Tap\Collection::class,
 
             // business objects
-            Customer::OBJECT_NAME => Customer::class,
-            Card::OBJECT_NAME => Card::class,
-            Token::OBJECT_NAME => Token::class,
-            Charge::OBJECT_NAME => Charge::class,
-            Authorize::OBJECT_NAME => Authorize::class,
+            \Tap\Customer::OBJECT_NAME => \Tap\Customer::class,
+            \Tap\Card::OBJECT_NAME => \Tap\Card::class,
+            \Tap\Token::OBJECT_NAME => \Tap\Token::class,
+            \Tap\Charge::OBJECT_NAME => \Tap\Charge::class,
+            \Tap\Authorize::OBJECT_NAME => \Tap\Authorize::class,
+            \Tap\Refund::OBJECT_NAME => \Tap\Refund::class,
         ];
         if (self::isList($resp)) {
             $mapped = [];

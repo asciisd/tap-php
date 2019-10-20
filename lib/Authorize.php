@@ -47,6 +47,23 @@ class Authorize extends ApiResource
     use ApiOperations\Update;
 
     /**
+     * These constants are possible representations of the status field.
+     *
+     * @link https://tappayments.api-docs.io/2.0/authorize/authorize-request
+     */
+    const STATUS_AUTHORIZED = 'AUTHORIZED';
+    const STATUS_SUCCEEDED = 'INITIATED';
+    const STATUS_ABANDONED = 'ABANDONED';
+    const STATUS_CANCELED = 'CANCELLED';
+    const STATUS_FAILED = 'FAILED';
+    const STATUS_DECLINED = 'DECLINED';
+    const STATUS_RESTRICTED = 'RESTRICTED';
+    const STATUS_CAPTURED = 'CAPTURED';
+    const STATUS_VOID = 'VOID';
+    const STATUS_TIMEDOUT = 'TIMEDOUT';
+    const STATUS_UNKNOWN = 'UNKNOWN';
+
+    /**
      * @param array|null $params
      * @param array|string|null $options
      *
