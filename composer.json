@@ -38,7 +38,7 @@
             "Tap\\": "lib/"
         },
         "classmap": [
-            "src/"
+            "lib/"
         ]
     },
     "autoload-dev": {
