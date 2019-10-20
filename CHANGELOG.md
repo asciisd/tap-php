@@ -3,7 +3,13 @@
 All Notable changes to `tap-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
+## [1.0.2] - 2019-10-20
+
+### Added
+-Refund ability to lib
+
 ## [1.0.1] - 2019-10-20
+
 ### Changes
 -Change src dir on classmap to lib.
 
