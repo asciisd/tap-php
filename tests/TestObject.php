@@ -8,7 +8,7 @@ use phpseclib\Crypt\RSA;
 
 class TestObject
 {
-    public static $test_resource_id = 'cus_Mi241920201317h9PX1902566';
+    public static $test_resource_id = 'cus_Kt492720201904Jk9c0503525';
     public static $test_token_id = 'tok_C4rIs1311012PX9L527526';
     public static $test_card_id = 'card_CE9eU1311012Bnk9527526';
     public static $auth_id = 'auth_b4PZ1320192154w4P91410635';

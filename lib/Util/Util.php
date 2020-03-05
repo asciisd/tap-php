@@ -55,6 +55,7 @@ abstract class Util
             \Tap\Charge::OBJECT_NAME => \Tap\Charge::class,
             \Tap\Authorize::OBJECT_NAME => \Tap\Authorize::class,
             \Tap\Refund::OBJECT_NAME => \Tap\Refund::class,
+            \Tap\Invoice::OBJECT_NAME => \Tap\Invoice::class,
         ];
         if (self::isList($resp)) {
             $mapped = [];
