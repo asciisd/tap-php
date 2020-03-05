@@ -38,8 +38,11 @@ class ChargeTest extends TestCase
         $resource = Charge::create([
             "amount" => 100,
             "currency" => "USD",
-            "source" => ['id' => TestObject::$auth_id],
-            "customer" => ['id' => TestObject::$test_resource_id]
+            "source" => ['id' => 'src_card'],
+            "customer" => ['id' => TestObject::$test_resource_id],
+            "redirect" => [
+                "url" => "http://payment.test/tap/handle"
+            ]
         ]);
         $this->assertInstanceOf(Charge::class, $resource);
     }

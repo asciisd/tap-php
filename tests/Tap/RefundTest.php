@@ -6,7 +6,7 @@ namespace Tap;
 
 class RefundTest extends TestCase
 {
-    const TEST_RESOURCE_ID = 're_y4HM5620190916c4J40910845';
+    const TEST_RESOURCE_ID = 're_a5OP5020201450l9XD0203420';
 
     public function testIsListable()
     {
@@ -16,6 +16,7 @@ class RefundTest extends TestCase
         );
         $resources = Refund::all();
 
+        var_dump($resources);
         $this->assertTrue(is_array($resources->refunds));
         $this->assertInstanceOf(\Tap\Refund::class, $resources->refunds[0]);
     }

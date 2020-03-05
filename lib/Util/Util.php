@@ -49,6 +49,7 @@ abstract class Util
 
             // business objects
             \Tap\Customer::OBJECT_NAME => \Tap\Customer::class,
+            \Tap\Order::OBJECT_NAME => \Tap\Order::class,
             \Tap\Card::OBJECT_NAME => \Tap\Card::class,
             \Tap\Token::OBJECT_NAME => \Tap\Token::class,
             \Tap\Charge::OBJECT_NAME => \Tap\Charge::class,
