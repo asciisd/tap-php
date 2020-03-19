@@ -5,6 +5,7 @@ namespace Tap\HttpClient;
 use Tap\Exception;
 use Tap\Tap;
 use Tap\Util;
+use Tap\Util\RandomGenerator;
 
 // @codingStandardsIgnoreStart
 // PSR2 requires all constants be upper case. Sadly, the CURL_SSLVERSION
@@ -36,6 +37,9 @@ class CurlClient implements ClientInterface
         return self::$instance;
     }
 
+    /** @var RandomGenerator */
+    protected $randomGenerator;
+
     protected $defaultOptions;
 
     protected $userAgentInfo;
@@ -63,7 +67,7 @@ class CurlClient implements ClientInterface
     public function __construct($defaultOptions = null, $randomGenerator = null)
     {
         $this->defaultOptions = $defaultOptions;
-        $this->randomGenerator = $randomGenerator ?: new Util\RandomGenerator();
+        $this->randomGenerator = $randomGenerator ?: new RandomGenerator();
         $this->initUserAgentInfo();
 
         $this->enableHttp2 = $this->canSafelyUseHttp2();
@@ -244,6 +248,9 @@ class CurlClient implements ClientInterface
 
     /**
      * @param array $opts cURL options
+     * @param $absUrl
+     * @return array
+     * @throws Exception\ApiConnectionException
      */
     private function executeRequestWithRetries($opts, $absUrl)
     {
@@ -253,6 +260,7 @@ class CurlClient implements ClientInterface
         while (true) {
             $rcode = 0;
             $errno = 0;
+            $message = null;
 
             // Create a callback to capture HTTP headers for the response
             $rheaders = new Util\CaseInsensitiveArray();

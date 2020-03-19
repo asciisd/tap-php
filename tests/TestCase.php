@@ -2,6 +2,7 @@
 
 namespace Tap;
 
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 use PHPUnit\Framework\TestCase as FWTestCase;
 
 /**
@@ -132,7 +133,7 @@ class TestCase extends FWTestCase
      *   Defaults to false.
      * @param string|null $base base URL (e.g. 'https://api.tap.com')
      *
-     * @return PHPUnit_Framework_MockObject_Builder_InvocationMocker
+     * @return InvocationMocker
      */
     private function prepareRequestMock(
         $method,

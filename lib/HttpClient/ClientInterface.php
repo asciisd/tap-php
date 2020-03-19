@@ -2,6 +2,9 @@
 
 namespace Tap\HttpClient;
 
+use Tap\Exception\ApiConnectionException;
+use Tap\Exception\UnexpectedValueException;
+
 interface ClientInterface
 {
     /**
@@ -12,10 +15,10 @@ interface ClientInterface
      * @param boolean $hasFile Whether or not $params references a file (via an @ prefix or
      *                         CURLFile)
      *
-     * @throws \Tap\Exception\ApiConnectionException
-     * @throws \Tap\Exception\UnexpectedValueException
      * @return array An array whose first element is raw request body, second
      *    element is HTTP status code and third array of HTTP headers.
+     * @throws UnexpectedValueException
+     * @throws ApiConnectionException
      */
     public function request($method, $absUrl, $headers, $params, $hasFile);
 }

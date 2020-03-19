@@ -7,8 +7,6 @@ namespace Tap\Exception;
  *
  * @package Tap\Exception
  */
-// phpcs:disable PSR1.Classes.ClassDeclaration.MultipleClasses
 interface ExceptionInterface
 {
 }
-// phpcs:enable

@@ -3,6 +3,9 @@
 
 namespace Tap;
 
+use Tap\Exception\UnexpectedValueException;
+use Tap\Util\Util;
+
 /**
  * Class Card
  * @package Tap
@@ -25,10 +28,31 @@ class Card extends ApiResource
     const OBJECT_NAME = "card";
     const PATH_SOURCES = '/card';
 
-    use ApiOperations\All;
-    use ApiOperations\Update;
     use ApiOperations\NestedResource;
-    use ApiOperations\Delete;
+
+
+    /**
+     * @param $customer_id
+     * @param array|string|null $opts
+     *
+     * @return array|TapObject
+     * @throws Exception\ApiErrorException
+     */
+    public static function all($customer_id, $opts = null)
+    {
+        $url = static::classUrl() . '/' . $customer_id;
+
+        list($response, $opts) = static::_staticRequest('get', $url, null, $opts);
+        $obj = Util::convertToTapObject($response->json, $opts);
+        if (!($obj instanceof TapObject)) {
+            throw new UnexpectedValueException(
+                'Expected type ' . Collection::class . ', got "' . get_class($obj) . '" instead.'
+            );
+        }
+        $obj->setLastResponse($response);
+//        $obj->setFilters($params);
+        return $obj;
+    }
 
     /**
      * @param string|null $id The ID of the customer on which to create the source.
@@ -41,6 +65,33 @@ class Card extends ApiResource
     {
         $params = ['source' => $source];
         return self::_createNestedResource($id, static::PATH_SOURCES, $params, $opts);
+    }
+
+    /**
+     * find more information at https://tappayments.api-docs.io/2.0/cards/verify-a-card
+     *
+     * @param $params
+     * @param null $options
+     * @return array|TapObject|\Tap\Card The created resource.
+     * @throws Exception\ApiErrorException
+     */
+    public static function verify($params, $options = null)
+    {
+        self::_validateParams($params);
+        $url = static::classUrl() . '/verify';
+
+        list($response, $opts) = static::_staticRequest('post', $url, $params, $options);
+        $obj = Util::convertToTapObject($response->json, $opts);
+        $obj->setLastResponse($response);
+        return $obj;
+    }
+
+    public static function classUrl()
+    {
+        // Replace dots with slashes for namespaced resources, e.g. if the object's name is
+        // "foo.bar", then its URL will be "/v1/foo/bars".
+        $base = str_replace('.', '/', static::OBJECT_NAME);
+        return "/v2/${base}";
     }
 
     /**
@@ -58,40 +109,43 @@ class Card extends ApiResource
             $msg = "Cards cannot be accessed without a customer ID, account ID or recipient ID.";
             throw new Exception\UnexpectedValueException($msg);
         }
-        $parentExtn = urlencode(Util\Util::utf8($parent));
-        $extn = urlencode(Util\Util::utf8($this['id']));
+        $parentExtn = urlencode(Util::utf8($parent));
+        $extn = urlencode(Util::utf8($this['id']));
         return "$base/$parentExtn/$path/$extn";
     }
 
     /**
-     * @param array|string $_id
+     * @param array|string $card_id
+     * @param $customer_id
      * @param array|string|null $_opts
      *
-     * @throws \Tap\Exception\BadMethodCallException
+     * @return Card|TapObject
      */
-    public static function retrieve($_id, $_opts = null)
+    public static function retrieve($card_id, $customer_id, $_opts = null)
     {
-        $msg = "Cards cannot be retrieved without a customer ID or an " .
-            "account ID. Retrieve a card using " .
-            "`Customer::retrieveSource('customer_id', 'card_id')` or " .
-            "`Account::retrieveExternalAccount('account_id', 'card_id')`.";
-        throw new Exception\BadMethodCallException($msg);
+        return Customer::retrieveSource($customer_id, $card_id);
     }
 
     /**
-     * @param string $_id
-     * @param array|null $_params
-     * @param array|string|null $_options
-     *
-     * @throws \Tap\Exception\BadMethodCallException
+     * @param $card_id
+     * @param $customer_id
+     * @param null $params
+     * @throws Exception\NotExistedMethodException
      */
-    public static function update($_id, $_params = null, $_options = null)
+    public static function update($card_id, $customer_id, $params = null)
     {
-        $msg = "Cards cannot be updated without a customer ID or an " .
-            "account ID. Update a card using " .
-            "`Customer::updateSource('customer_id', 'card_id', " .
-            "\$updateParams)` or `Account::updateExternalAccount(" .
-            "'account_id', 'card_id', \$updateParams)`.";
-        throw new Exception\BadMethodCallException($msg);
+        Customer::updateSource($customer_id, $card_id, $params);
+    }
+
+    /**
+     * delete saved source
+     *
+     * @param $card_id
+     * @param $customer_id
+     * @return Card|TapObject
+     */
+    public static function delete($card_id, $customer_id)
+    {
+        return Customer::deleteSource($customer_id, $card_id);
     }
 }

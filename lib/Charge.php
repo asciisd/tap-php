@@ -41,6 +41,18 @@ class Charge extends ApiResource
 {
     const OBJECT_NAME = "charge";
 
+    const STATUS_INITIATED = "INITIATED";
+    const STATUS_IN_PROGRESS = "IN_PROGRESS";
+    const STATUS_ABANDONED = "ABANDONED";
+    const STATUS_CANCELLED = "CANCELLED";
+    const STATUS_FAILED = "FAILED";
+    const STATUS_DECLINED = "DECLINED";
+    const STATUS_RESTRICTED = "RESTRICTED";
+    const STATUS_CAPTURED = "CAPTURED";
+    const STATUS_VOID = "VOID";
+    const STATUS_TIMEDOUT = "TIMEDOUT";
+    const STATUS_UNKNOWN = "UNKNOWN";
+
     use ApiOperations\All;
     use ApiOperations\Create;
     use ApiOperations\Retrieve;

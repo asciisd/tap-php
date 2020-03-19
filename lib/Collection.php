@@ -2,6 +2,11 @@
 
 namespace Tap;
 
+use ArrayIterator;
+use Generator;
+use IteratorAggregate;
+use Tap\Exception\UnexpectedValueException;
+
 /**
  * Class Collection
  *
@@ -19,7 +24,7 @@ namespace Tap;
  *
  * @package Tap
  */
-class Collection extends TapObject implements \IteratorAggregate
+class Collection extends TapObject implements IteratorAggregate
 {
     const OBJECT_NAME = "list";
 
@@ -63,9 +68,9 @@ class Collection extends TapObject implements \IteratorAggregate
             return parent::offsetGet($k);
         } else {
             $msg = "You tried to access the {$k} index, but Collection " .
-                   "types only support string keys. (HINT: List calls " .
-                   "return an object with a `data` (which is the data " .
-                   "array). You likely want to call ->data[{$k}])";
+                "types only support string keys. (HINT: List calls " .
+                "return an object with a `data` (which is the data " .
+                "array). You likely want to call ->data[{$k}])";
             throw new Exception\InvalidArgumentException($msg);
         }
     }
@@ -77,9 +82,9 @@ class Collection extends TapObject implements \IteratorAggregate
 
         list($response, $opts) = $this->_request('get', $url, $params, $opts);
         $obj = Util\Util::convertToTapObject($response, $opts);
-        if (!($obj instanceof \Tap\Collection)) {
-            throw new \Tap\Exception\UnexpectedValueException(
-                'Expected type ' . \Tap\Collection::class . ', got "' . get_class($obj) . '" instead.'
+        if (!($obj instanceof Collection)) {
+            throw new UnexpectedValueException(
+                'Expected type ' . Collection::class . ', got "' . get_class($obj) . '" instead.'
             );
         }
         $obj->setFilters($params);
@@ -112,16 +117,16 @@ class Collection extends TapObject implements \IteratorAggregate
     }
 
     /**
-     * @return \ArrayIterator An iterator that can be used to iterate
+     * @return ArrayIterator An iterator that can be used to iterate
      *    across objects in the current page.
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->data);
+        return new ArrayIterator($this->data);
     }
 
     /**
-     * @return \Generator|TapObject[] A generator that can be used to
+     * @return Generator|TapObject[] A generator that can be used to
      *    iterate across all objects across all pages. As page boundaries are
      *    encountered, the next page will be fetched automatically for
      *    continued iteration.
@@ -174,7 +179,7 @@ class Collection extends TapObject implements \IteratorAggregate
      *
      * @param array|null $params
      * @param array|string|null $opts
-     * @return Collection
+     * @return array|Collection|TapObject
      */
     public function nextPage($params = null, $opts = null)
     {
@@ -201,7 +206,7 @@ class Collection extends TapObject implements \IteratorAggregate
      *
      * @param array|null $params
      * @param array|string|null $opts
-     * @return Collection
+     * @return array|Collection|TapObject
      */
     public function previousPage($params = null, $opts = null)
     {

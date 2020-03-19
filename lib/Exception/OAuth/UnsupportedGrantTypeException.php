@@ -3,7 +3,7 @@
 namespace Tap\Exception\OAuth;
 
 /**
- * UnsupportedGrantTypeException is thrown when an unuspported grant type
+ * UnsupportedGrantTypeException is thrown when an unsupported grant type
  * parameter is specified.
  *
  * @package Tap\Exception\OAuth
