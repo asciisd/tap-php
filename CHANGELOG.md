@@ -4,27 +4,33 @@ All Notable changes to `tap-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [1.0.6] - 2020-04-06
+## [1.0.7] - 2020-04-06
 
 ### Added
 -Webhook Signature
 -Webhook
 
-## [1.0.5] - 2020-03-24
+## [1.0.6] - 2020-03-24
 
 ### Added
 -Available payment methods
 
-## [1.0.4] - 2020-03-19
+## [1.0.5] - 2020-03-19
 
 ### Added
--CardTest
+-Card model
+-Card Test
 -Charge statuses
+
+## [1.0.4] - 2020-03-05
+
+### Added
+-Product model
+-Recurring model
 
 ## [1.0.3] - 2020-03-05
 
 ### Added
--Product model
 -Invoice model
 -Order model
 
