@@ -2,41 +2,36 @@
 
 namespace Tap;
 
+use Tap\Exception\SignatureVerificationException;
+
 abstract class WebhookSignature
 {
-    const EXPECTED_SCHEME = 'v2';
+    const EXPECTED_SCHEME = 'hashstring';
 
     /**
-     * Verifies the signature header sent by Stripe. Throws an
+     * Verifies the signature header sent by Tap. Throws an
      * Exception\SignatureVerificationException exception if the verification fails for
      * any reason.
      *
-     * @param string $payload the payload sent by Stripe
-     * @param string $header the contents of the signature header sent by
-     *  Stripe
+     * @param array $payload the payload sent by Tap
+     * @param array $header the contents of the signature header sent by
+     *  Tap
      * @param string $secret secret used to generate the signature
      * @param int $tolerance maximum difference allowed between the header's
      *  timestamp and the current time
      *
-     * @throws Exception\SignatureVerificationException if the verification fails
-     *
      * @return bool
+     * @throws SignatureVerificationException if the verification fails
+     *
      */
     public static function verifyHeader($payload, $header, $secret, $tolerance = null)
     {
         // Extract timestamp and signatures from header
-        $timestamp = self::getTimestamp($header);
-        $signatures = self::getSignatures($header, self::EXPECTED_SCHEME);
-        if (-1 === $timestamp) {
-            throw Exception\SignatureVerificationException::factory(
-                'Unable to extract timestamp and signatures from header',
-                $payload,
-                $header
-            );
-        }
-        if (empty($signatures)) {
-            throw Exception\SignatureVerificationException::factory(
-                'No signatures found with expected scheme',
+        $signature = self::getSignature($header, self::EXPECTED_SCHEME);
+
+        if (empty($signature)) {
+            throw SignatureVerificationException::factory(
+                'No signature found with expected scheme',
                 $payload,
                 $header
             );
@@ -44,28 +39,16 @@ abstract class WebhookSignature
 
         // Check if expected signature is found in list of signatures from
         // header
-        $signedPayload = "{$timestamp}.{$payload}";
-        $expectedSignature = self::computeSignature($signedPayload, $secret);
+        $expectedSignature = self::computeSignature($payload, $secret);
         $signatureFound = false;
-        foreach ($signatures as $signature) {
-            if (Util\Util::secureCompare($expectedSignature, $signature)) {
-                $signatureFound = true;
 
-                break;
-            }
+        if (Util\Util::secureCompare($expectedSignature, $signature)) {
+            $signatureFound = true;
         }
+
         if (!$signatureFound) {
-            throw Exception\SignatureVerificationException::factory(
+            throw SignatureVerificationException::factory(
                 'No signatures found matching the expected signature for payload',
-                $payload,
-                $header
-            );
-        }
-
-        // Check if timestamp is within tolerance
-        if (($tolerance > 0) && (\abs(\time() - $timestamp) > $tolerance)) {
-            throw Exception\SignatureVerificationException::factory(
-                'Timestamp outside the tolerance zone',
                 $payload,
                 $header
             );
@@ -75,66 +58,65 @@ abstract class WebhookSignature
     }
 
     /**
-     * Extracts the timestamp in a signature header.
-     *
-     * @param string $header the signature header
-     *
-     * @return int the timestamp contained in the header, or -1 if no valid
-     *  timestamp is found
-     */
-    private static function getTimestamp($header)
-    {
-        $items = \explode(',', $header);
-
-        foreach ($items as $item) {
-            $itemParts = \explode('=', $item, 2);
-            if ('t' === $itemParts[0]) {
-                if (!\is_numeric($itemParts[1])) {
-                    return -1;
-                }
-
-                return (int) ($itemParts[1]);
-            }
-        }
-
-        return -1;
-    }
-
-    /**
      * Extracts the signatures matching a given scheme in a signature header.
      *
-     * @param string $header the signature header
+     * @param array $header the signature header
      * @param string $scheme the signature scheme to look for
      *
-     * @return array the list of signatures matching the provided scheme
+     * @return string the signature matching the provided scheme
      */
-    private static function getSignatures($header, $scheme)
+    private static function getSignature($header, $scheme)
     {
-        $signatures = [];
-        $items = \explode(',', $header);
+        $signature = '';
 
-        foreach ($items as $item) {
-            $itemParts = \explode('=', $item, 2);
-            if ($itemParts[0] === $scheme) {
-                \array_push($signatures, $itemParts[1]);
+        foreach ($header as $key => $value) {
+            if ($key === $scheme) {
+                $signature = $value[0];
             }
         }
 
-        return $signatures;
+        return $signature;
     }
 
     /**
      * Computes the signature for a given payload and secret.
      *
-     * The current scheme used by Stripe ("v1") is HMAC/SHA-256.
+     * The current scheme used by Tap ("v1") is HMAC/SHA-256.
      *
-     * @param string $payload the payload to sign
+     * @param array $payload the payload to sign
      * @param string $secret the secret used to generate the signature
      *
      * @return string the signature as a string
      */
     private static function computeSignature($payload, $secret)
     {
-        return \hash_hmac('sha256', $payload, $secret);
+        return hash_hmac('sha256', self::generateSignature($payload), $secret);
+    }
+
+    /**
+     * @param array $payload
+     * @return string
+     */
+    private static function generateSignature($payload)
+    {
+        $object = $payload['object'];
+
+        $id = $payload['id'];
+        $amount = $payload['amount'];
+        $currency = $payload['currency'];
+        $gateway_reference = $payload['reference']['gateway'];
+        $payment_reference = $payload['reference']['payment'];
+        $updated = $payload['updated'] ?? null;
+        $status = $payload['status'];
+        $created = $payload['transaction']['created'];
+
+        if ($object === 'invoice') {
+            $toBeHashedString = 'x_id' . $id . 'x_amount' . $amount . 'x_currency' . $currency . 'x_updated' . $updated . 'x_status' . $status . 'x_created' . $created . '';
+        } else {
+            // Charge or Authorize - Create a hashstring from the posted response data + the data that are related to you.
+            $toBeHashedString = 'x_id' . $id . 'x_amount' . $amount . 'x_currency' . $currency . 'x_gateway_reference' . $gateway_reference . 'x_payment_reference' . $payment_reference . 'x_status' . $status . 'x_created' . $created . '';
+        }
+
+        return $toBeHashedString;
     }
 }

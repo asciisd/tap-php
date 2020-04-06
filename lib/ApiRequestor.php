@@ -268,7 +268,7 @@ class ApiRequestor
             'bindings_version' => Tap::VERSION,
             'lang' => 'php',
             'lang_version' => $langVersion,
-            'publisher' => 'tap',
+            'publisher' => 'asciisd',
             'uname' => $uname,
         ];
         if ($clientInfo) {
@@ -308,8 +308,13 @@ class ApiRequestor
         if (!$myApiKey) {
             $msg = 'No API key provided.  (HINT: set your API key using '
                 . '"Tap::setApiKey(<API-KEY>)".  You can generate API keys from '
-                . 'the Tap web interface.  See https://tap.com/api for '
+                . 'the Tap web interface.  See https://tap.company/api for '
                 . 'details, or email support@tap.com if you have any questions.';
+            throw new Exception\AuthenticationException($msg);
+        }
+
+        if(strlen($myApiKey)!==32){
+            $msg = 'Invalid private secret Key';
             throw new Exception\AuthenticationException($msg);
         }
 
