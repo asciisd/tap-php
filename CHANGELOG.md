@@ -4,6 +4,11 @@ All Notable changes to `tap-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [1.0.8] - 2020-04-07
+
+### Updated
+-Webhook Signature to round the amount
+
 ## [1.0.7] - 2020-04-06
 
 ### Added
