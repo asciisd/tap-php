@@ -47,7 +47,24 @@ class ChargeTest extends TestCase
         $this->assertInstanceOf(Charge::class, $resource);
     }
 
-    public function testIsSaveable()
+    public function testItCanChargeWithKnet() {
+        $this->expectsRequest(
+            'post',
+            '/v2/charges'
+        );
+        $resource = Charge::create([
+            "amount" => 100,
+            "currency" => "KWD",
+            "source" => ['id' => 'src_kw.knet'],
+            "customer" => ['id' => TestObject::$test_resource_id],
+            "redirect" => [
+                "url" => "http://payment.test/tap/handle"
+            ]
+        ]);
+        $this->assertInstanceOf(Charge::class, $resource);
+    }
+
+    public function testIsSavable()
     {
         $resource = Charge::retrieve(self::TEST_RESOURCE_ID);
         $resource->metadata["key"] = "value";
