@@ -23,7 +23,7 @@ namespace Tap;
  * @property object $notifications
  * @property object $order
  * @property object $reference
- * @property object $invoicer
+ * @property object $invoices
  * @property object $customer
  * @property object $post
  * @property object $redirect
