@@ -6,6 +6,7 @@ use ArrayIterator;
 use Generator;
 use IteratorAggregate;
 use Tap\Exception\UnexpectedValueException;
+use Traversable;
 
 /**
  * Class Collection
@@ -53,24 +54,24 @@ class Collection extends TapObject implements IteratorAggregate
     /**
      * Sets the filters, removing paging options.
      *
-     * @param array $filters The filters.
+     * @param  array  $filters The filters.
      */
-    public function setFilters($filters)
+    public function setFilters(array $filters): void
     {
         $this->filters = $filters;
         unset($this->filters['starting_after']);
         unset($this->filters['ending_before']);
     }
 
-    public function offsetGet($k)
+    public function offsetGet($offset): mixed
     {
-        if (is_string($k)) {
-            return parent::offsetGet($k);
+        if (is_string($offset)) {
+            return parent::offsetGet($offset);
         } else {
-            $msg = "You tried to access the {$k} index, but Collection " .
+            $msg = "You tried to access the {$offset} index, but Collection " .
                 "types only support string keys. (HINT: List calls " .
                 "return an object with a `data` (which is the data " .
-                "array). You likely want to call ->data[{$k}])";
+                "array). You likely want to call ->data[{$offset}])";
             throw new Exception\InvalidArgumentException($msg);
         }
     }
@@ -120,7 +121,7 @@ class Collection extends TapObject implements IteratorAggregate
      * @return ArrayIterator An iterator that can be used to iterate
      *    across objects in the current page.
      */
-    public function getIterator()
+    public function getIterator(): Traversable
     {
         return new ArrayIterator($this->data);
     }
@@ -153,7 +154,7 @@ class Collection extends TapObject implements IteratorAggregate
      * when we know that there isn't a next page in order to replicate the
      * behavior of the API when it attempts to return a page beyond the last.
      *
-     * @param array|string|null $opts
+     * @param ?array|?string $opts
      * @return Collection
      */
     public static function emptyCollection($opts = null)
@@ -177,8 +178,8 @@ class Collection extends TapObject implements IteratorAggregate
      * This method will try to respect the limit of the current page. If none
      * was given, the default limit will be fetched again.
      *
-     * @param array|null $params
-     * @param array|string|null $opts
+     * @param ?array $params
+     * @param ?array|?string $opts
      * @return array|Collection|TapObject
      */
     public function nextPage($params = null, $opts = null)
@@ -204,8 +205,8 @@ class Collection extends TapObject implements IteratorAggregate
      * This method will try to respect the limit of the current page. If none
      * was given, the default limit will be fetched again.
      *
-     * @param array|null $params
-     * @param array|string|null $opts
+     * @param ?array $params
+     * @param ?array|?string $opts
      * @return array|Collection|TapObject
      */
     public function previousPage($params = null, $opts = null)

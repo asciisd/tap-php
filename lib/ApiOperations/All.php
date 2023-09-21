@@ -14,13 +14,7 @@ use Tap\Util\Util;
  */
 trait All
 {
-    /**
-     * @param array|null $params
-     * @param array|string|null $opts
-     *
-     * @return array|TapObject
-     */
-    public static function all($params = null, $opts = null)
+    public static function all(array $params = null, array|string $opts = null): array|TapObject
     {
         self::_validateParams($params);
         $url = static::classUrl() . '/list';
@@ -33,7 +27,6 @@ trait All
             );
         }
         $obj->setLastResponse($response);
-//        $obj->setFilters($params);
         return $obj;
     }
 }

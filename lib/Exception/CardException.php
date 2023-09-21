@@ -2,6 +2,8 @@
 
 namespace Tap\Exception;
 
+use Tap\Util\CaseInsensitiveArray;
+
 /**
  * CardException is thrown when a user enters a card that can't be charged for
  * some reason.
@@ -16,26 +18,22 @@ class CardException extends ApiErrorException
     /**
      * Creates a new CardException exception.
      *
-     * @param string $message The exception message.
-     * @param int|null $httpStatus The HTTP status code.
-     * @param string|null $httpBody The HTTP body as a string.
-     * @param array|null $jsonBody The JSON deserialized body.
-     * @param array|\Tap\Util\CaseInsensitiveArray|null $httpHeaders The HTTP headers array.
-     * @param string|null $tapCode The Tap error code.
-     * @param string|null $declineCode The decline code.
-     * @param string|null $tapParam The parameter related to the error.
+     * @param  string  $message The exception message.
+     * @param  ?int  $httpStatus The HTTP status code.
+     * @param  ?string  $httpBody The HTTP body as a string.
+     * @param  ?array  $jsonBody The JSON deserialized body.
+     * @param  array|CaseInsensitiveArray|null  $httpHeaders The HTTP headers array.
+     * @param  ?string  $tapCode The Tap error code.
      *
      * @return CardException
      */
     public static function factory(
-        $message,
-        $httpStatus = null,
-        $httpBody = null,
-        $jsonBody = null,
-        $httpHeaders = null,
-        $tapCode = null,
-        $declineCode = null,
-        $tapParam = null
+        string $message,
+        int $httpStatus = null,
+        string $httpBody = null,
+        array $jsonBody = null,
+        array|CaseInsensitiveArray $httpHeaders = null,
+        string $tapCode = null
     ) {
         $instance = parent::factory($message, $httpStatus, $httpBody, $jsonBody, $httpHeaders, $tapCode);
         $instance->setDeclineCode($declineCode);
@@ -47,7 +45,7 @@ class CardException extends ApiErrorException
     /**
      * Gets the decline code.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getDeclineCode()
     {
@@ -57,7 +55,7 @@ class CardException extends ApiErrorException
     /**
      * Sets the decline code.
      *
-     * @param string|null $declineCode
+     * @param ?string $declineCode
      */
     public function setDeclineCode($declineCode)
     {
@@ -67,7 +65,7 @@ class CardException extends ApiErrorException
     /**
      * Gets the parameter related to the error.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getTapParam()
     {
@@ -77,7 +75,7 @@ class CardException extends ApiErrorException
     /**
      * Sets the parameter related to the error.
      *
-     * @param string|null $tapParam
+     * @param ?string $tapParam
      */
     public function setTapParam($tapParam)
     {

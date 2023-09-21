@@ -19,8 +19,8 @@ class ApiResponse
     /**
      * @param string $body
      * @param integer $code
-     * @param array|CaseInsensitiveArray|null $headers
-     * @param array|null $json
+     * @param array|CaseInsensitiveArray $headers
+     * @param ?array $json
      */
     public function __construct($body, $code, $headers, $json)
     {

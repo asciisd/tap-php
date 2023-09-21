@@ -8,7 +8,7 @@ namespace Tap\Util;
  */
 class DefaultLogger implements LoggerInterface
 {
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = []): void
     {
         if (count($context) > 0) {
             throw new \Tap\Exception\BadMethodCallException('DefaultLogger does not currently implement context. Please implement if you need it.');

@@ -29,10 +29,6 @@ interface LoggerInterface
     /**
      * Runtime errors that do not require immediate action but should typically
      * be logged and monitored.
-     *
-     * @param string $message
-     * @param array $context
-     * @return void
      */
-    public function error($message, array $context = []);
+    public function error(string $message, array $context = []): void;
 }

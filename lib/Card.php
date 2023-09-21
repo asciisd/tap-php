@@ -55,9 +55,9 @@ class Card extends ApiResource
     }
 
     /**
-     * @param string|null $id The ID of the customer on which to create the source.
+     * @param ?string $id The ID of the customer on which to create the source.
      * @param $source
-     * @param array|string|null $opts
+     * @param ?array|?string $opts
      *
      * @return TapObject|Card
      */
@@ -91,7 +91,7 @@ class Card extends ApiResource
         // Replace dots with slashes for namespaced resources, e.g. if the object's name is
         // "foo.bar", then its URL will be "/v1/foo/bars".
         $base = str_replace('.', '/', static::OBJECT_NAME);
-        return "/v2/${base}";
+        return "/v2/{$base}";
     }
 
     /**
@@ -117,7 +117,7 @@ class Card extends ApiResource
     /**
      * @param array|string $card_id
      * @param $customer_id
-     * @param array|string|null $_opts
+     * @param ?array|?string $_opts
      *
      * @return Card|TapObject
      */

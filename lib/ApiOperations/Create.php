@@ -13,8 +13,8 @@ use Tap\Util\Util;
 trait Create
 {
     /**
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return array|TapObject|\Tap\Customer The created resource.
      */

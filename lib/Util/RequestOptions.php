@@ -9,13 +9,11 @@ class RequestOptions
     /**
      * @var array A list of headers that should be persisted across requests.
      */
-    public static $HEADERS_TO_PERSIST = [
+    public static array $HEADERS_TO_PERSIST = [];
 
-    ];
-
-    public $headers;
-    public $apiKey;
-    public $apiBase;
+    public mixed $headers;
+    public mixed $apiKey;
+    public mixed $apiBase;
 
     public function __construct($key = null, $headers = [], $base = null)
     {
@@ -27,7 +25,7 @@ class RequestOptions
     /**
      * Unpacks an options array and merges it into the existing RequestOptions
      * object.
-     * @param array|string|null $options a key => value array
+     * @param  ?array|?string  $options  a key => value array
      *
      * @return RequestOptions
      */
@@ -47,7 +45,7 @@ class RequestOptions
     /**
      * Discards all headers that we don't want to persist across requests.
      */
-    public function discardNonPersistentHeaders()
+    public function discardNonPersistentHeaders(): void
     {
         foreach ($this->headers as $k => $v) {
             if (!in_array($k, self::$HEADERS_TO_PERSIST)) {
@@ -58,11 +56,11 @@ class RequestOptions
 
     /**
      * Unpacks an options array into an RequestOptions object
-     * @param array|string|null $options a key => value array
+     * @param  ?array|?string  $options  a key => value array
      *
      * @return RequestOptions
      */
-    public static function parse($options)
+    public static function parse($options): RequestOptions
     {
         if ($options instanceof self) {
             return $options;
@@ -90,9 +88,9 @@ class RequestOptions
         }
 
         $message = 'The second argument to Tap API method calls is an '
-           . 'optional per-request apiKey, which must be a string, or '
-           . 'per-request options, which must be an array. (HINT: you can set '
-           . 'a global apiKey by "Tap::setApiKey(<apiKey>)")';
+            .'optional per-request apiKey, which must be a string, or '
+            .'per-request options, which must be an array. (HINT: you can set '
+            .'a global apiKey by "Tap::setApiKey(<apiKey>)")';
         throw new Exception\InvalidArgumentException($message);
     }
 }

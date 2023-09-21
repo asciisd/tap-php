@@ -182,7 +182,7 @@ abstract class Util
 
     /**
      * @param $params
-     * @return false|string|null
+     * @return false|?string
      */
     public static function encodePostParameters($params)
     {
@@ -195,7 +195,7 @@ abstract class Util
 
     /**
      * @param array $params
-     * @param string|null $parentKey
+     * @param ?string $parentKey
      *
      * @return array
      */

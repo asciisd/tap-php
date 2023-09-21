@@ -11,7 +11,7 @@ trait Delete
 {
     /**
      * @param array|null $params
-     * @param array|string|null $opts
+     * @param ?array|?string $opts
      *
      * @return static The deleted resource.
      */

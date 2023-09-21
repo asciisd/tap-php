@@ -2,10 +2,14 @@
 
 namespace Tap\Exception;
 
+use Exception;
+use Tap\ErrorObject;
+use Tap\Util\CaseInsensitiveArray;
+
 /**
  * Implements properties and methods common to all (non-SPL) Tap exceptions.
  */
-abstract class ApiErrorException extends \Exception implements ExceptionInterface
+abstract class ApiErrorException extends Exception implements ExceptionInterface
 {
     protected $error;
     protected $httpBody;
@@ -18,22 +22,22 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Creates a new API error exception.
      *
-     * @param string $message The exception message.
-     * @param int|null $httpStatus The HTTP status code.
-     * @param string|null $httpBody The HTTP body as a string.
-     * @param array|null $jsonBody The JSON deserialized body.
-     * @param array|\Tap\Util\CaseInsensitiveArray|null $httpHeaders The HTTP headers array.
-     * @param string|null $tapCode The Tap error code.
+     * @param  string  $message The exception message.
+     * @param  ?int  $httpStatus The HTTP status code.
+     * @param  ?string  $httpBody The HTTP body as a string.
+     * @param  ?array  $jsonBody The JSON deserialized body.
+     * @param  array|CaseInsensitiveArray|null  $httpHeaders The HTTP headers array.
+     * @param  ?string  $tapCode The Tap error code.
      *
      * @return static
      */
     public static function factory(
-        $message,
-        $httpStatus = null,
-        $httpBody = null,
-        $jsonBody = null,
-        $httpHeaders = null,
-        $tapCode = null
+        string $message,
+        int $httpStatus = null,
+        string $httpBody = null,
+        array $jsonBody = null,
+        array|CaseInsensitiveArray $httpHeaders = null,
+        string $tapCode = null
     ) {
         $instance = new static($message);
         $instance->setHttpStatus($httpStatus);
@@ -55,7 +59,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the Tap error object.
      *
-     * @return \Tap\ErrorObject|null
+     * @return ErrorObject|null
      */
     public function getError()
     {
@@ -65,7 +69,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the Tap error object.
      *
-     * @param \Tap\ErrorObject|null $error
+     * @param ErrorObject|null $error
      */
     public function setError($error)
     {
@@ -75,7 +79,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the HTTP body as a string.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getHttpBody()
     {
@@ -85,7 +89,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the HTTP body as a string.
      *
-     * @param string|null $httpBody
+     * @param ?string $httpBody
      */
     public function setHttpBody($httpBody)
     {
@@ -95,19 +99,17 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the HTTP headers array.
      *
-     * @return array|\Tap\Util\CaseInsensitiveArray|null
+     * @return array|CaseInsensitiveArray|null
      */
-    public function getHttpHeaders()
+    public function getHttpHeaders(): array|CaseInsensitiveArray|null
     {
         return $this->httpHeaders;
     }
 
     /**
      * Sets the HTTP headers array.
-     *
-     * @param array|\Tap\Util\CaseInsensitiveArray|null $httpHeaders
      */
-    public function setHttpHeaders($httpHeaders)
+    public function setHttpHeaders(array|CaseInsensitiveArray $httpHeaders): void
     {
         $this->httpHeaders = $httpHeaders;
     }
@@ -115,7 +117,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the HTTP status code.
      *
-     * @return int|null
+     * @return ?int
      */
     public function getHttpStatus()
     {
@@ -125,7 +127,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the HTTP status code.
      *
-     * @param int|null $httpStatus
+     * @param ?int $httpStatus
      */
     public function setHttpStatus($httpStatus)
     {
@@ -135,7 +137,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the JSON deserialized body.
      *
-     * @return array|null
+     * @return ?array
      */
     public function getJsonBody()
     {
@@ -145,7 +147,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the JSON deserialized body.
      *
-     * @param array|null $jsonBody
+     * @param ?array $jsonBody
      */
     public function setJsonBody($jsonBody)
     {
@@ -155,7 +157,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Gets the Tap request ID.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getRequestId()
     {
@@ -165,7 +167,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the Tap request ID.
      *
-     * @param string|null $requestId
+     * @param ?string $requestId
      */
     public function setRequestId($requestId)
     {
@@ -178,7 +180,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
      * Cf. the `CODE_*` constants on {@see \Tap\ErrorObject} for possible
      * values.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getTapCode()
     {
@@ -188,7 +190,7 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
     /**
      * Sets the Tap error code.
      *
-     * @param string|null $tapCode
+     * @param ?string $tapCode
      */
     public function setTapCode($tapCode)
     {
@@ -213,6 +215,6 @@ abstract class ApiErrorException extends \Exception implements ExceptionInterfac
             return null;
         }
 
-        return \Tap\ErrorObject::constructFrom($this->jsonBody['error']);
+        return ErrorObject::constructFrom($this->jsonBody['error']);
     }
 }

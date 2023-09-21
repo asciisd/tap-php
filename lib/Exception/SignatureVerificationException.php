@@ -17,8 +17,8 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
      * Creates a new SignatureVerificationException exception.
      *
      * @param string $message The exception message.
-     * @param string|null $httpBody The HTTP body as a string.
-     * @param string|null $sigHeader The `Tap-Signature` HTTP header.
+     * @param ?string $httpBody The HTTP body as a string.
+     * @param ?string $sigHeader The `Tap-Signature` HTTP header.
      *
      * @return SignatureVerificationException
      */
@@ -37,7 +37,7 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
     /**
      * Gets the HTTP body as a string.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getHttpBody()
     {
@@ -47,7 +47,7 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
     /**
      * Sets the HTTP body as a string.
      *
-     * @param string|null $httpBody
+     * @param ?string $httpBody
      */
     public function setHttpBody($httpBody)
     {
@@ -57,7 +57,7 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
     /**
      * Gets the `Tap-Signature` HTTP header.
      *
-     * @return string|null
+     * @return ?string
      */
     public function getSigHeader()
     {
@@ -67,7 +67,7 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
     /**
      * Sets the `Tap-Signature` HTTP header.
      *
-     * @param string|null $sigHeader
+     * @param ?string $sigHeader
      */
     public function setSigHeader($sigHeader)
     {

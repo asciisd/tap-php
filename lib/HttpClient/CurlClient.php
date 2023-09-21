@@ -61,7 +61,7 @@ class CurlClient implements ClientInterface
      * Note that request() will silently ignore a non-callable, non-array $defaultOptions, and will
      * throw an exception if $defaultOptions returns a non-array value.
      *
-     * @param array|callable|null $defaultOptions
+     * @param ?array|?callable $defaultOptions
      * @param null $randomGenerator
      */
     public function __construct($defaultOptions = null, $randomGenerator = null)

@@ -14,8 +14,8 @@ trait Update
 {
     /**
      * @param string $id The ID of the resource to update.
-     * @param array|null $params
-     * @param array|string|null $opts
+     * @param ?array $params
+     * @param ?array|?string $opts
      *
      * @return array|\Tap\TapObject The updated resource.
      */
@@ -31,7 +31,7 @@ trait Update
     }
 
     /**
-     * @param array|string|null $opts
+     * @param ?array|?string $opts
      *
      * @return static The saved resource.
      */

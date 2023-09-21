@@ -12,7 +12,7 @@ class Tap
     // @var string The base URL for the Tap API.
     public static $apiBase = 'https://api.tap.company';
 
-    // @var string|null The version of the Tap API to use for requests.
+    // @var ?string The version of the Tap API to use for requests.
     public static $apiVersion = null;
 
     // @var string Path to the CA bundle used to verify SSL certificates

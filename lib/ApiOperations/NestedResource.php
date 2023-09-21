@@ -12,8 +12,8 @@ trait NestedResource
     /**
      * @param string $method
      * @param string $url
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject
      */
@@ -30,7 +30,7 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param string|null $nestedId
+     * @param ?string $nestedId
      *
      * @return string
      */
@@ -46,8 +46,8 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject
      */
@@ -60,9 +60,9 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param string|null $nestedId
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?string $nestedId
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject
      */
@@ -75,9 +75,9 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param string|null $nestedId
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?string $nestedId
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject
      */
@@ -90,9 +90,9 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param string|null $nestedId
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?string $nestedId
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject
      */
@@ -105,8 +105,8 @@ trait NestedResource
     /**
      * @param string $id
      * @param string $nestedPath
-     * @param array|null $params
-     * @param array|string|null $options
+     * @param ?array $params
+     * @param ?array|?string $options
      *
      * @return \Tap\TapObject | \Tap\Collection
      */
