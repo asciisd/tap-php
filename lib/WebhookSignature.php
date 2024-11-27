@@ -42,15 +42,13 @@ abstract class WebhookSignature
         $expectedSignature = self::computeSignature($payload, $secret);
         $signatureFound = false;
 
-        if (Util\Util::secureCompare($expectedSignature, $signature)) {
+        if ($expectedSignature == $signature) {
             $signatureFound = true;
         }
 
         if (!$signatureFound) {
             throw SignatureVerificationException::factory(
-                'No signatures found matching the expected signature for payload',
-                $payload,
-                $header
+                'No signatures found matching the expected signature for payload', $payload, $header, $expectedSignature, $signature
             );
         }
 

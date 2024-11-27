@@ -10,26 +10,34 @@ namespace Tap\Exception;
  */
 class SignatureVerificationException extends \Exception implements ExceptionInterface
 {
-    protected $httpBody;
-    protected $sigHeader;
+    protected mixed $httpBody;
+    protected mixed $sigHeader;
+    protected mixed $expectedSignature;
+    protected mixed $currentSignature;
 
     /**
      * Creates a new SignatureVerificationException exception.
      *
-     * @param string $message The exception message.
-     * @param ?string $httpBody The HTTP body as a string.
-     * @param ?string $sigHeader The `Tap-Signature` HTTP header.
-     *
+     * @param $message
+     * @param $httpBody
+     * @param $sigHeader
+     * @param $expectedSignature
+     * @param $currentSignature
      * @return SignatureVerificationException
      */
     public static function factory(
         $message,
         $httpBody = null,
-        $sigHeader = null
-    ) {
+        $sigHeader = null,
+        $expectedSignature = null,
+        $currentSignature = null
+    ): SignatureVerificationException
+    {
         $instance = new static($message);
         $instance->setHttpBody($httpBody);
         $instance->setSigHeader($sigHeader);
+        $instance->setExpectedSignature($expectedSignature);
+        $instance->setCurrentSignature($currentSignature);
 
         return $instance;
     }
@@ -69,8 +77,18 @@ class SignatureVerificationException extends \Exception implements ExceptionInte
      *
      * @param ?string $sigHeader
      */
-    public function setSigHeader($sigHeader)
+    public function setSigHeader($sigHeader): void
     {
         $this->sigHeader = $sigHeader;
+    }
+
+    private function setExpectedSignature(mixed $expectedSignature): void
+    {
+        $this->expectedSignature = $expectedSignature;
+    }
+
+    private function setCurrentSignature(mixed $currentSignature): void
+    {
+        $this->currentSignature = $currentSignature;
     }
 }
