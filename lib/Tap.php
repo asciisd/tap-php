@@ -43,7 +43,7 @@ class Tap
     // @var float Initial delay between retries, in seconds
     private static $initialNetworkRetryDelay = 0.5;
 
-    const VERSION = '2.1.0';
+    const VERSION = '2.2.1';
 
     /**
      * @return mixed
