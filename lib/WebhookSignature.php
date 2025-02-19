@@ -100,7 +100,7 @@ abstract class WebhookSignature
         $id = $payload['id'];
         $currency = $payload['currency'];
         $amount = number_format($payload['amount'], $currency == 'KWD' ? 3 : 2, '.', '');
-        $gateway_reference = $payload['reference']['gateway'];
+        $gateway_reference = $payload['reference']['gateway'] ?? null;
         $payment_reference = $payload['reference']['payment'];
         $updated = $payload['updated'] ?? null;
         $status = $payload['status'];
